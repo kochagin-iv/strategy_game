@@ -1,0 +1,116 @@
+@startuml STRATEGY
+
+!define LIGHTORANGE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+class Game {
+  -Window: window
+  -Sprite: spriteFon
+  -Texture: textureFon
+  -Sprite: spriteCastle
+  -Texture: textureCastle
+  -vector<Unit*>: units
+
+  -void initWindow()
+  --
+  +Clock: clock_create
+  +Game()
+  +~Game()
+  --
+  +void initSwordsMan()
+  +void initArcherMan()
+  +void initPaladin()
+  +void initPhoenix()
+  --
+  +void delete_invisible_units()
+  +void update()
+  +void render()
+  +void run()
+}
+
+note left of Game: I think clock_create\nshould be personally to each unit
+
+class Unit {
+  #int: health
+  #int: attack
+  #float: movementSpeed
+  #int: gold_cost
+  #int: silver_cost
+  #float: posX
+  #float: posY
+  #int: num_texture
+  #vector<vector<int>>: texture_rect_moving
+  #Sprite: sprite
+  #Texture: texture
+  #void initTexture(file_path)
+  #void initSprite(int posX, int posY, float scaleX, float scaleY)
+  --
+  +Clock: clock_move
+  +Unit()
+  +~Unit()
+  --
+  +void improve_attack(int new_level)
+  +void improve_health(int new_level)
+  +void improve_speed(int new_level)
+  --
+  +void move(float dirX, float dirY)
+  +void update()
+  +void render(RenderTarget& target)
+  +Sprite& get_sprite()
+}
+
+Game - Unit: Units <
+
+class Knight {
+}
+note left of Knight: this class\nunites all Knights
+
+Unit <-- Knight
+
+class SwordsMan{
+  +SwordsMan()
+  +~SwordsMan()
+  --
+  +void initSwordsMan(std::vector<Unit*>& units)
+}
+
+Knight <-- SwordsMan
+
+class Paladin{
+  +Paladin()
+  +~Paladin()
+  --
+  +void initPaladin()
+}
+
+Knight <-- Paladin
+
+class Archers{
+}
+note right: this class\nunites all Archers
+note left of Archers: there will be other ArcherMen
+
+
+Unit <-- Archers
+
+class ArcherMan{
+  +ArcherMan()
+  +~ArcherMan()
+  --
+  +void initArcerMan(std::vector<Unit*>& units)
+
+}
+
+Archers <-- ArcherMan
+
+class Phoenix{
+  +Phoenix()
+  +~Phoenix()
+  --
+  +void initPhoenix(std::vector<Unit*>& units)
+}
+Unit <-- Phoenix
+
+note "Also I planned adding other unit classes" as N1
+
+@enduml
