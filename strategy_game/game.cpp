@@ -112,14 +112,14 @@ void Game::update () {
 }
 
 void Game::render(sf::RenderTarget &target) {
-  if(!this->textureFon.loadFromFile("/Users/ila/Desktop/strategy_game/strategy_game/Textures/fone.png")) {
+  if(!this->textureFon.loadFromFile("../strategy_game/Textures/fone.png")) {
     std::cout << "ERROR::FONE::INITTEXTURE::Could not load texture file!" << "\n";
     exit(0);
   }
   this->spriteFon.setTexture(this->textureFon);
   this->window->draw(spriteFon);
   
-  if(!this->textureCastle.loadFromFile("/Users/ila/Desktop/strategy_game/strategy_game/Textures/castle.png")) {
+  if(!this->textureCastle.loadFromFile("../strategy_game/Textures/castle.png")) {
     std::cout << "ERROR::CASTLE::INITTEXTURE::Could not load texture file!" << "\n";
   }
   this->spriteCastle.setTexture(this->textureCastle);

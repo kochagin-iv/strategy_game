@@ -18,7 +18,7 @@ ArcherMan::ArcherMan() {
   // this->texture_rect_moving[9] = {645, 785, 65, 83};
   // this->texture_rect_moving[8] = {724, 785, 70, 83};
   // this->texture_rect_moving[9] = {802, 785, 55, 83};
-  this->initTexture("/Users/ila/Desktop/strategy_game/strategy_game/Textures/archerman_texture.png");
+  this->initTexture("../strategy_game/Textures/archerman_texture.png");
   this->initSprite(250, 780, 2, 2);
 }
 

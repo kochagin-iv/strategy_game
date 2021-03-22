@@ -18,7 +18,7 @@ SwordsMan::SwordsMan() {
   this->texture_rect_moving[9] = {724, 525, 72, 91};
   // this->texture_rect_moving[10] = {811, 525, 70, 91};
   // this->texture_rect_moving[11] = {901, 525, 59, 91};
-  this->initTexture("/Users/ila/Desktop/strategy_game/strategy_game/Textures/swordsman_texture.png");
+  this->initTexture("../strategy_game/Textures/swordsman_texture.png");
   this->initSprite(250, 780, 2, 2);
 }
 
@@ -40,7 +40,7 @@ Paladin::Paladin() {
   this->texture_rect_moving[5] = {624, 107, 64, 91};
   this->texture_rect_moving[6] = {748, 107, 61, 84};
   this->texture_rect_moving[7] = {875, 107, 61, 91};
-  this->initTexture("/Users/ila/Desktop/strategy_game/strategy_game/Textures/Paladin_texture.png");
+  this->initTexture("../strategy_game/Textures/Paladin_texture.png");
   this->initSprite(250, 780, 2, 2);
 }
 
