@@ -1,0 +1,37 @@
+[
+{
+  "directory": "/Users/ila/Desktop/strategy_game/build",
+  "command": "/usr/bin/clang++  -I/Users/ila/Desktop/strategy_game/strategy_game/Textures -iframework /Library/Frameworks -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -std=gnu++14 -o CMakeFiles/strategy.dir/strategy_game/main.cpp.o -c /Users/ila/Desktop/strategy_game/strategy_game/main.cpp",
+  "file": "/Users/ila/Desktop/strategy_game/strategy_game/main.cpp"
+},
+{
+  "directory": "/Users/ila/Desktop/strategy_game/build",
+  "command": "/usr/bin/clang++  -I/Users/ila/Desktop/strategy_game/strategy_game/Textures -iframework /Library/Frameworks -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -std=gnu++14 -o CMakeFiles/strategy.dir/strategy_game/game.cpp.o -c /Users/ila/Desktop/strategy_game/strategy_game/game.cpp",
+  "file": "/Users/ila/Desktop/strategy_game/strategy_game/game.cpp"
+},
+{
+  "directory": "/Users/ila/Desktop/strategy_game/build",
+  "command": "/usr/bin/clang++  -I/Users/ila/Desktop/strategy_game/strategy_game/Textures -iframework /Library/Frameworks -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -std=gnu++14 -o CMakeFiles/strategy.dir/strategy_game/units.cpp.o -c /Users/ila/Desktop/strategy_game/strategy_game/units.cpp",
+  "file": "/Users/ila/Desktop/strategy_game/strategy_game/units.cpp"
+},
+{
+  "directory": "/Users/ila/Desktop/strategy_game/build",
+  "command": "/usr/bin/clang++  -I/Users/ila/Desktop/strategy_game/strategy_game/Textures -iframework /Library/Frameworks -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -std=gnu++14 -o CMakeFiles/strategy.dir/strategy_game/archers.cpp.o -c /Users/ila/Desktop/strategy_game/strategy_game/archers.cpp",
+  "file": "/Users/ila/Desktop/strategy_game/strategy_game/archers.cpp"
+},
+{
+  "directory": "/Users/ila/Desktop/strategy_game/build",
+  "command": "/usr/bin/clang++  -I/Users/ila/Desktop/strategy_game/strategy_game/Textures -iframework /Library/Frameworks -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -std=gnu++14 -o CMakeFiles/strategy.dir/strategy_game/knights.cpp.o -c /Users/ila/Desktop/strategy_game/strategy_game/knights.cpp",
+  "file": "/Users/ila/Desktop/strategy_game/strategy_game/knights.cpp"
+},
+{
+  "directory": "/Users/ila/Desktop/strategy_game/build",
+  "command": "/usr/bin/clang++  -I/Users/ila/Desktop/strategy_game/strategy_game/Textures -iframework /Library/Frameworks -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -std=gnu++14 -o CMakeFiles/strategy.dir/strategy_game/phoenix.cpp.o -c /Users/ila/Desktop/strategy_game/strategy_game/phoenix.cpp",
+  "file": "/Users/ila/Desktop/strategy_game/strategy_game/phoenix.cpp"
+},
+{
+  "directory": "/Users/ila/Desktop/strategy_game/build",
+  "command": "/usr/bin/clang++  -I/Users/ila/Desktop/strategy_game/strategy_game/Textures -iframework /Library/Frameworks -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -std=gnu++14 -o CMakeFiles/strategy.dir/strategy_game/Buttons.cpp.o -c /Users/ila/Desktop/strategy_game/strategy_game/Buttons.cpp",
+  "file": "/Users/ila/Desktop/strategy_game/strategy_game/Buttons.cpp"
+}
+]
