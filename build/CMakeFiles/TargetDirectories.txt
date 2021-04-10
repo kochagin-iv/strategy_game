@@ -1,3 +1,0 @@
-/Users/ila/Desktop/strategy_game/build/CMakeFiles/rebuild_cache.dir
-/Users/ila/Desktop/strategy_game/build/CMakeFiles/edit_cache.dir
-/Users/ila/Desktop/strategy_game/build/CMakeFiles/strategy.dir
