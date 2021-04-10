@@ -2,28 +2,18 @@
 #include "stdafx.h"
 
 Unit::Unit() {
-//  this->clock_move.restart();
-//  this->movementSpeed = 5.f;
-//  this->num_texture = 0;
-//  this->texture_rect_moving.resize(10);
-//  this->texture_rect_moving[0] = {27, 525, 63, 91};
-//  this->texture_rect_moving[1] = {104, 525, 63, 91};
-//  this->texture_rect_moving[2] = {180, 525, 69, 91};
-//  this->texture_rect_moving[3] = {263, 525, 69, 91};
-//  this->texture_rect_moving[4] = {346, 525, 61, 91};
-//  this->texture_rect_moving[5] = {427, 525, 61, 91};
-//  this->texture_rect_moving[6] = {502, 525, 61, 91};
-//  this->texture_rect_moving[7] = {571, 525, 61, 91};
-//  this->texture_rect_moving[8] = {642, 525, 61, 91};
-//  this->texture_rect_moving[9] = {724, 525, 72, 91};
-//  // this->texture_rect_moving[10] = {811, 525, 70, 91};
-//  // this->texture_rect_moving[11] = {901, 525, 59, 91};
-//  this->initTexture();
-//  this->initSprite();
+  this->num_texture_attack = 0;
+  this->num_texture = 0;
+  this->num_texture_die = 0;
+  this->can_move = true;
+  this->already_has_target = false;
+  this->in_team = false;
 }
 
 Unit::~Unit() {
-  texture_rect_moving.clear();
+  this->texture_rect_moving.clear();
+  this->texture_rect_die.clear();
+  this->texture_rect_attack.clear();
 }
 
 void Unit::initSprite(int posX, int posY, float scaleX = 1.0f, float scaleY = 1.0f) {
@@ -90,4 +80,86 @@ void Unit::move(float dirX, float dirY) {
   
   this->num_texture++;
   num_texture %= this->texture_rect_moving.size();
+}
+
+void Unit::make_attack() {
+  int new_x_texture = this->texture_rect_attack[this->num_texture_attack][0];
+  int new_y_texture = this->texture_rect_attack[this->num_texture_attack][1];
+  int new_w_texture = this->texture_rect_attack[this->num_texture_attack][2];
+  int new_h_texture = this->texture_rect_attack[this->num_texture_attack][3];
+  
+  this->sprite.setTextureRect(sf::IntRect(new_x_texture, new_y_texture, new_w_texture, new_h_texture));
+  
+  this->num_texture_attack++;
+  num_texture_attack %= this->texture_rect_attack.size();
+}
+
+void Unit::die() {
+  int new_x_texture = this->texture_rect_die[this->num_texture_die][0];
+  int new_y_texture = this->texture_rect_die[this->num_texture_die][1];
+  int new_w_texture = this->texture_rect_die[this->num_texture_die][2];
+  int new_h_texture = this->texture_rect_die[this->num_texture_die][3];
+  
+  this->sprite.setTextureRect(sf::IntRect(new_x_texture, new_y_texture, new_w_texture, new_h_texture));
+  
+  this->num_texture_die++;
+  num_texture_die %= this->texture_rect_die.size();
+}
+
+
+
+void Unit::adapter_to_enemy() {
+  this->enemy = 1;
+  this->movementSpeed *= -1;
+  this->sprite.setScale(-2, 2);
+  this->sprite.setPosition(1920, this->sprite.getPosition().y);
+}
+
+Team::Team() {
+  SwordsMan* swordsman = new SwordsMan;
+  ArcherMan* archerman = new ArcherMan;
+  Paladin* paladin = new Paladin;
+  Phoenix* phoenix = new Phoenix;
+
+
+  this->team = {swordsman, archerman, paladin, phoenix};
+  this->summ_silver_cost = 0;
+  this->summ_health = 0;
+  this->summ_attack = 0;
+  for (auto unit: this->team) {
+    unit->in_team = true;
+    this->summ_silver_cost += unit->silver_cost;
+    this->summ_health += unit->health;
+    this->summ_attack += unit->attack;
+  }
+}
+
+/*Team::Team(int kol_units, Unit* unit) {
+  this->summ_health = kol_units * unit->health;
+  this->summ_attack = kol_units * unit->attack;
+  this->summ_silver_cost = kol_units * unit->silver_cost;
+  for (int i = 0; i < kol_units; ++i) {
+    this->team.push_back(unit);
+  }
+}
+
+Team::Team(std::vector<Unit*>& units) {
+  this->team = units;
+  this->summ_silver_cost = 0;
+  this->summ_health = 0;
+  for (auto unit: this->team) {
+    this->summ_silver_cost += unit->silver_cost;
+    this->summ_health += unit->health;
+  }
+}*/
+
+Team::~Team() {
+  this->team.clear();
+}
+
+void Team::die() {
+  for (auto unit: this->team) {
+    unit->health = 0;
+    unit->die();
+  }
 }

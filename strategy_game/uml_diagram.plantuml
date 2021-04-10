@@ -26,6 +26,9 @@ class Game {
   +void update()
   +void render()
   +void run()
+  --
+  +int: current_silver
+  +int: current_gold
 }
 
 note left of Game: I think clock_create\nshould be personally to each unit
@@ -39,6 +42,8 @@ class Unit {
   #float: posX
   #float: posY
   #int: num_texture
+  #bool: in_team
+  #bool: enemy 
   #vector<vector<int>>: texture_rect_moving
   #Sprite: sprite
   #Texture: texture
@@ -54,9 +59,16 @@ class Unit {
   +void improve_speed(int new_level)
   --
   +void move(float dirX, float dirY)
+  +void make_attack()
+  +void die()
+  --
+  +void move(float dirX, float dirY)
   +void update()
   +void render(RenderTarget& target)
   +Sprite& get_sprite()
+  --
+  +void adapter_to_enemy()
+
 }
 
 Game - Unit: Units <
@@ -112,5 +124,82 @@ class Phoenix{
 Unit <-- Phoenix
 
 note "Also I planned adding other unit classes" as N1
+
+class Button {
+  +Sprite: sprite
+  +Texture: texture
+  +bool is_onClick
+  --
+  +Button()
+  +~Button()
+  +bool: check_if_click(sf::Event, RenderWindow*)
+  +void onClick()
+  +string: name
+  +void render(sf::RenderTarget& target)
+  +void update()
+  +void initTexture(string file_path)
+  +void initSprite(int posX, int posY, float scaleX, float scaleY)
+}
+
+class UnitButton {
+
+}
+note left of UnitButton: this class\nunite all Unit create Buttons
+
+
+class SwordsManButton {
+  +SwordsManButton()
+  +~SwordsManButton()
+  --
+  void onClick()
+}
+
+class ArcherManButton { 
+  +ArcherManButton()
+  +~ArcherManButton()
+  --
+  void onClick()
+}
+
+class PhoenixButton {
+  +PhoenixButton()
+  +~PhoenixButton()
+  --
+  void onClick()
+}
+
+class PaladinButton {
+  +PaladinButton()
+  +~PaladinButton()
+  --
+  void onClick()
+}
+
+class TeamButton {
+  +TeamButton()
+  +~TeamButton()
+  --
+  +void onClick()
+}
+
+Button <-- UnitButton
+UnitButton <-- SwordsManButton
+UnitButton <-- ArcherManButton
+UnitButton <-- PhoenixButton
+UnitButton <-- PaladinButton
+UnitButton <-- TeamButton
+
+class Team{
+  +int: summ_silver_cost
+  +int: summ_health
+  +int: summ_attack
+  +std::vector<Unit*> team
+  +Team()
+  +Team(int, Unit*)
+  +Team(std::vector<Unit*>&)
+  +~Team()
+  +void die()
+}
+note right of Team: this class\nworking as Composite for Units
 
 @enduml

@@ -4,7 +4,8 @@
 #include <vector>
 #include <string>
 #include <time.h>
-
+#include <functional>
+#include <cmath>
 // SFML
 
 #include <SFML/System.hpp>

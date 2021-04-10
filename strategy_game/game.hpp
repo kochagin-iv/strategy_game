@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "units.hpp"
+#include "Buttons.hpp"
 
 class Game {
 private:
@@ -12,8 +13,12 @@ private:
   sf::Texture textureCastle;
   
   std::vector<Unit*> units;
+  std::vector<Team*> teams;
   
-  
+  std::vector<Button*> buttons;
+
+  int current_silver;
+  int current_gold;
   
   
   void initWindow();
@@ -29,6 +34,16 @@ public:
   void initArcherMan();
   void initPaladin();
   void initPhoenix();
+  void initTeam();
+
+  // Init enemy
+  void initSwordsManEnemy();
+  void initArcherManEnemy();
+  void initPaladinEnemy();
+  void initPhoenixEnemy();
+
+  void initButtons();
+  void clearButtons();
   
   void delete_invisible_units();
   void update();
