@@ -16,7 +16,9 @@ set(ARCHERS strategy_game/archers.cpp)
 set(KNIGHTS strategy_game/knights.cpp)
 set(PHOENIX strategy_game/phoenix.cpp)
 set(BUTTONS strategy_game/Buttons.cpp)
+set(FACT strategy_game/factory.cpp)
 
 
-add_executable(strategy ${SOURCES} ${GAME} ${UNITS} ${ARCHERS} ${KNIGHTS} ${PHOENIX} ${BUTTONS})
+
+add_executable(strategy ${SOURCES} ${GAME} ${UNITS} ${ARCHERS} ${KNIGHTS} ${PHOENIX} ${BUTTONS} ${FACT})
 target_link_libraries(strategy sfml-graphics sfml-audio)

@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include "stdafx.h"
+#include "factory.hpp"
 
 Game::Game() {
   this->initWindow();
@@ -27,62 +28,6 @@ void Game::initWindow() {
 //  this->units.push_back(new Unit);
 //}
 
-void Game::initSwordsMan() {
-  this->units.push_back(new SwordsMan);
-}
-
-void Game::initArcherMan() {
-  this->units.push_back(new ArcherMan);
-}
-
-void Game::initPaladin() {
-  this->units.push_back(new Paladin);
-}
-
-void Game::initPhoenix() {
-  this->units.push_back(new Phoenix);
-}
-
-void Game::initSwordsManEnemy() {
-  SwordsMan* swordsman = new SwordsMan;
-  swordsman->adapter_to_enemy();
-  this->units.push_back(swordsman);
-}
-
-void Game::initArcherManEnemy() {
-  ArcherMan* archerman = new ArcherMan;
-  archerman->adapter_to_enemy();
-  this->units.push_back(archerman);
-}
-
-void Game::initPaladinEnemy() {
-  Paladin* paladin = new Paladin;
-  paladin->adapter_to_enemy();
-  this->units.push_back(paladin);
-}
-
-void Game::initPhoenixEnemy() {
-  Phoenix* phoenix = new Phoenix;
-  phoenix->adapter_to_enemy();
-  this->units.push_back(phoenix);
-}
-
-void Game::initTeam() {
-  Team* team = new Team();
-  for (auto unit: team->team) {
-    this->units.push_back(unit);
-  }
-  teams.push_back(team);
-}
-
-void Game::initButtons() {
-  this->buttons.push_back(new SwordsManButton);
-  this->buttons.push_back(new ArcherManButton);
-  this->buttons.push_back(new PhoenixButton);
-  this->buttons.push_back(new PaladinButton);
-  this->buttons.push_back(new TeamButton);
-}
-
 void Game::clearButtons() {
   this->buttons.clear();
 }
@@ -99,10 +44,10 @@ void Game::delete_invisible_units() {
   std::vector<int> iterators_for_delete;
   int iter = 0;
   for (auto unit: units) {
-    if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x) {
+    if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x + 100) {
       iterators_for_delete.push_back(iter);
     }
-    if (unit->get_sprite().getPosition().x < 0) {
+    if (unit->get_sprite().getPosition().x < -100) {
       iterators_for_delete.push_back(iter);
     }
     if (unit->health <= 0 && unit->num_texture_die == 0) {
@@ -114,8 +59,41 @@ void Game::delete_invisible_units() {
   for (auto iterator: iterators_for_delete) {
     units.erase(units.begin() + iterator);
   }
+
   iterators_for_delete.clear();
-  iter = 0;
+  for (auto tm: teams) {
+    iter = 0;
+    for (auto unit: tm->team) {
+      bool fl = 0;
+      for (auto addr: units) {
+        if (unit == addr) {
+          fl = 1;
+          break;
+        }
+      }
+      if (!fl) {
+        ++iter;
+        continue;
+      }
+      if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x) {
+        iterators_for_delete.push_back(iter);
+      }
+      if (unit->get_sprite().getPosition().x < 0) {
+        iterators_for_delete.push_back(iter);
+      }
+      if (unit->health <= 0 && unit->num_texture_die == 0) {
+        this->current_silver += 10;
+        iterators_for_delete.push_back(iter);
+      }
+      ++iter;
+    }
+    for (auto iterator: iterators_for_delete) {
+      tm->team.erase(tm->team.begin() + iterator);
+    }
+    iterators_for_delete.clear();
+  }
+  
+  
 }
 
 void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
@@ -183,6 +161,9 @@ void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
 }
 
 void Game::update () {
+  AbstractCreationFactory* fact_war = new CreationWarriors;
+  AbstractCreationFactory* fact_enemy_war = new CreationEnemyWarriors;
+  
   sf::Event e;
   while (this->window->pollEvent(e)) {
     switch (e.type) {
@@ -198,31 +179,34 @@ void Game::update () {
               SwordsMan a = *(new SwordsMan);
               if (this->current_silver >= a.silver_cost && 
                button->name == "SwordsManButton") {
-                this->initSwordsMan();
+                this->units.push_back(fact_war->initSwordsMan());
                 this->current_silver -= a.silver_cost;
               }
               ArcherMan b = *(new ArcherMan);
               if (this->current_silver >= b.silver_cost && 
                button->name == "ArcherManButton") {
-                this->initArcherMan();
+                this->units.push_back(fact_war->initArcherMan());
                 this->current_silver -= b.silver_cost;
               }
               Phoenix c = *(new Phoenix);
               if (this->current_silver >= c.silver_cost && 
                button->name == "PhoenixButton") {
-                this->initPhoenix();
+                this->units.push_back(fact_war->initPhoenix());
                 this->current_silver -= c.silver_cost;
               }
               Paladin d = *(new Paladin);
               if (this->current_silver >= d.silver_cost && 
                button->name == "PaladinButton") {
-                this->initPaladin();
+                this->units.push_back(fact_war->initPaladin());
                 this->current_silver -= d.silver_cost;
               }
               Team e = *(new Team);
               if (this->current_silver >= e.summ_silver_cost && 
                button->name == "TeamButton") {
-                this->initTeam();
+                this->teams.push_back(fact_war->initTeam());
+                for (auto uit: this->teams.back()->team) {
+                  this->units.push_back(uit);
+                }
                 this->current_silver -= e.summ_silver_cost;
               }
             }
@@ -289,16 +273,16 @@ void Game::update () {
     //this->initTeam();
     int id = rand() % 4;
     if (id == 0) {
-      this->initSwordsManEnemy();
+      this->units.push_back(fact_enemy_war->initSwordsManEnemy());
     }
     if (id == 1) {
-      this->initArcherManEnemy();
+      this->units.push_back(fact_enemy_war->initArcherManEnemy());
     }
     if (id == 2) {
-      this->initPaladinEnemy();
+      this->units.push_back(fact_enemy_war->initPaladinEnemy());
     }
     if (id == 3) {
-      this->initPhoenixEnemy();
+      this->units.push_back(fact_enemy_war->initPhoenixEnemy());
     }
     this->clock_create.restart();
   }
@@ -330,7 +314,10 @@ void Game::render() {
     unit->render(*this->window);
   }
   this->clearButtons();
-  this->initButtons();
+  AbstractCreationFactory* fact_butt = new CreationButtons;
+  for (auto button: fact_butt->initButtons()) {
+    this->buttons.push_back(button);
+  }
   for (auto button: buttons) {
     button->render(*this->window);
   }

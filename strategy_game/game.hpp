@@ -1,9 +1,11 @@
+#pragma once
+
 #include "stdafx.h"
 #include "units.hpp"
 #include "Buttons.hpp"
 
 class Game {
-private:
+protected:
   sf::RenderWindow* window;
   
   sf::Sprite spriteFon;
@@ -28,21 +30,6 @@ public:
   virtual ~Game();
   // Functions
   // void initUnit();
-  
-  // Init units
-  void initSwordsMan();
-  void initArcherMan();
-  void initPaladin();
-  void initPhoenix();
-  void initTeam();
-
-  // Init enemy
-  void initSwordsManEnemy();
-  void initArcherManEnemy();
-  void initPaladinEnemy();
-  void initPhoenixEnemy();
-
-  void initButtons();
   void clearButtons();
   
   void delete_invisible_units();
