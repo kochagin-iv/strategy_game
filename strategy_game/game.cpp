@@ -42,17 +42,21 @@ void Game::run() {
 
 void Game::delete_invisible_units() {
   std::vector<int> iterators_for_delete;
+  std::set<Unit*> deleted;
   int iter = 0;
   for (auto unit: units) {
     if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x + 100) {
       iterators_for_delete.push_back(iter);
+      deleted.insert(unit);
     }
     if (unit->get_sprite().getPosition().x < -100) {
       iterators_for_delete.push_back(iter);
+      deleted.insert(unit);
     }
     if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
       this->current_silver += 10;
       iterators_for_delete.push_back(iter);
+      deleted.insert(unit);
     }
     ++iter;
   }
@@ -64,26 +68,22 @@ void Game::delete_invisible_units() {
   for (auto tm: teams) {
     iter = 0;
     for (auto unit: tm->team) {
-      bool fl = 0;
-      for (auto addr: units) {
-        if (unit == addr) {
-          fl = 1;
-          break;
-        }
-      }
-      if (!fl) {
+      if (deleted.count(unit) > 0) {
         ++iter;
         continue;
       }
       if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x) {
         iterators_for_delete.push_back(iter);
+        deleted.insert(unit);
       }
       if (unit->get_sprite().getPosition().x < 0) {
         iterators_for_delete.push_back(iter);
+        deleted.insert(unit);
       }
       if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
         this->current_silver += 10;
         iterators_for_delete.push_back(iter);
+        deleted.insert(unit);
       }
       ++iter;
     }
