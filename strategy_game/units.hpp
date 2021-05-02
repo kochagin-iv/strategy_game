@@ -3,7 +3,7 @@
 #include "stdafx.h"
 
 class Unit {
-public:
+protected:
   
   std::vector<std::vector<int> > texture_rect_moving, 
   texture_rect_die, texture_rect_attack;
@@ -30,6 +30,8 @@ public:
   int silver_cost;
   sf::Clock clock_move;
   
+public:
+
   Unit();
   ~Unit();
   void improve_attack(int new_level);
@@ -46,7 +48,49 @@ public:
   
   void render(sf::RenderTarget& target);
   void adapter_to_enemy();
-  sf::Sprite& get_sprite();
+  //sf::Sprite& get_sprite();
+  auto& get_health() {
+    return health;
+  }
+  auto& get_num_texture_die() {
+    return num_texture_die;
+  }
+  auto& get_sprite() {
+    return sprite;
+  }
+  auto& get_unit_type() {
+    return unit_type;
+  }
+  auto& get_enemy() {
+    return enemy;
+  }
+  auto& get_attack_radius() {
+    return attack_radius;
+  }
+  auto& get_attack() {
+    return attack;
+  }
+  auto& get_in_team() {
+    return in_team;
+  }
+  auto& get_silver_cost() {
+    return silver_cost;
+  }
+  auto& get_clock_move() {
+    return clock_move;
+  }
+  auto& get_can_move() {
+    return can_move;
+  }
+  void set_can_move(bool pos) {
+    can_move = pos;
+  }
+  void set_health(int hlth) {
+    health = hlth;
+  }
+  void set_in_team(bool flag) {
+    in_team = flag;
+  }
 };
 
 

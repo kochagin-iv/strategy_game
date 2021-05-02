@@ -49,10 +49,6 @@ void Unit::update() {
   
 }
 
-sf::Sprite& Unit::get_sprite() {
-  return sprite;
-}
-
 void Unit::render(sf::RenderTarget &target) {
   target.draw(this->sprite);
 }
@@ -127,10 +123,10 @@ Team::Team() {
   this->summ_health = 0;
   this->summ_attack = 0;
   for (auto unit: this->team) {
-    unit->in_team = true;
-    this->summ_silver_cost += unit->silver_cost;
-    this->summ_health += unit->health;
-    this->summ_attack += unit->attack;
+    unit->set_in_team(true);
+    this->summ_silver_cost += unit->get_silver_cost();
+    this->summ_health += unit->get_health();
+    this->summ_attack += unit->get_attack();
   }
 }
 
@@ -159,7 +155,7 @@ Team::~Team() {
 
 void Team::die() {
   for (auto unit: this->team) {
-    unit->health = 0;
+    unit->set_health(0);
     unit->die();
   }
 }

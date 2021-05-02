@@ -202,4 +202,42 @@ class Team{
 }
 note right of Team: this class\nworking as Composite for Units
 
+class AbstractCreationFactory {
+  #virtual SwordsMan* initSwordsMan()
+  #virtual ArcherMan* initArcherMan()
+  #virtual Paladin* initPaladin()
+  #virtual Phoenix* initPhoenix()
+  #virtual SwordsMan* initSwordsManEnemy()
+  #virtual ArcherMan* initArcherManEnemy()
+  #virtual Paladin* initPaladinEnemy()
+  #virtual Phoenix* initPhoenixEnemy()
+  #virtual Team* initTeam()
+  #virtual std::vector<Button*> initButtons()
+}
+
+class CreationWarriors{
+  #virtual SwordsMan* initSwordsMan()
+  #virtual ArcherMan* initArcherMan()
+  #virtual Paladin* initPaladin()
+  #virtual Phoenix* initPhoenix()
+  #virtual Team* initTeam()
+
+}
+
+class CreationEnemyWarriors {
+  #virtual SwordsMan* initSwordsManEnemy()
+  #virtual ArcherMan* initArcherManEnemy()
+  #virtual Paladin* initPaladinEnemy()
+  #virtual Phoenix* initPhoenixEnemy()
+}
+
+class CreationButtons {
+  #virtual std::vector<Button*> initButtons()
+}
+
+AbstractCreationFactory <-- CreationWarriors
+AbstractCreationFactory <-- CreationEnemyWarriors
+AbstractCreationFactory <-- CreationButtons
+Unit - AbstractCreationFactory
+
 @enduml

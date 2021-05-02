@@ -1,48 +1,25 @@
 #include "units.hpp"
 #include "stdafx.h"
-
+#include "config_phoenix.hpp"
 
 Phoenix::Phoenix() {
+  Config_phoenix config_phoenix;
   this->clock_move.restart();
-  this->movementSpeed = 10.f;
+  this->movementSpeed = config_phoenix.phoenix_speed;
   this->num_texture = 0;
-  this->texture_rect_moving.resize(6);
-  this->texture_rect_attack.resize(3);
-  this->texture_rect_die.resize(13);
+  this->texture_rect_moving = config_phoenix.phoenix_texture_rect_moving;
+  this->texture_rect_attack = config_phoenix.phoenix_texture_rect_attack;
+  this->texture_rect_die = config_phoenix.phoenix_texture_rect_die;
   
-  this->texture_rect_moving[0] = {402, 135, 117, 117};
-  this->texture_rect_moving[1] = {604, 135, 117, 117};
-  this->texture_rect_moving[2] = {805, 135, 119, 117};
-  this->texture_rect_moving[3] = {1005, 135, 119, 117};
-  this->texture_rect_moving[4] = {1205, 135, 119, 117};
-  this->texture_rect_moving[5] = {1404, 135, 129, 117};
 
-  this->texture_rect_attack[0] = {8, 473, 166, 97};
-  this->texture_rect_attack[1] = {214, 500, 136, 97};
-  this->texture_rect_attack[2] = {414, 490, 136, 97};
-
-  this->texture_rect_die[0] = {14, 942, 102, 173};
-  this->texture_rect_die[1] = {209, 942, 102, 173};
-  this->texture_rect_die[2] = {408, 942, 102, 173};
-  this->texture_rect_die[3] = {606, 942, 102, 173};
-  this->texture_rect_die[4] = {808, 942, 102, 173};
-  this->texture_rect_die[5] = {1007, 942, 102, 173};
-  this->texture_rect_die[6] = {1212, 942, 102, 173};
-  this->texture_rect_die[7] = {1414, 942, 102, 173};
-  this->texture_rect_die[8] = {14, 1137, 102, 173};
-  this->texture_rect_die[9] = {209, 1137, 102, 173};
-  this->texture_rect_die[10] = {408, 1137, 102, 173};
-  this->texture_rect_die[11] = {606, 1137, 102, 173};
-  this->texture_rect_die[12] = {808, 1137, 102, 173};
-
-  this->initTexture("../strategy_game/Textures/phoenix_texture.png");
-  this->initSprite(250, 300, 2, 2);
-  this->silver_cost = 50;
-  this->gold_cost = 0;
-  this->unit_type = 3;
-  this->attack_radius = 600;
-  this->attack = 20;
-  this->health = 500;
+  this->initTexture(config_phoenix.address_for_texture);
+  this->initSprite(config_phoenix.sprite_x, config_phoenix.sprite_y, config_phoenix.scale_x, config_phoenix.scale_y);
+  this->silver_cost = config_phoenix.silver_cost;
+  this->gold_cost = config_phoenix.gold_cost;
+  this->unit_type = config_phoenix.unit_type;
+  this->attack_radius = config_phoenix.attack_radius;
+  this->attack = config_phoenix.attack;
+  this->health = config_phoenix.health;
 
 }
 

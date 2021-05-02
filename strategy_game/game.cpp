@@ -1,12 +1,14 @@
 #include "game.hpp"
 #include "stdafx.h"
 #include "factory.hpp"
+#include "config_game_param.hpp"
 
 Game::Game() {
   this->initWindow();
   // this->initUnit();
-  current_silver = 100;
-  current_gold = 100;
+  Config_game_param conf;
+  current_silver = conf.current_silver;
+  current_gold = conf.current_gold;
   this->clock_create.restart();
 }
 
@@ -19,14 +21,11 @@ Game::~Game() {
 }
 
 void Game::initWindow() {
-  this->window = new sf::RenderWindow(sf::VideoMode(1920, 1067),  "Strategy game", sf::Style::Close | sf::Style::Titlebar);
+  Config_game_param conf;
+  this->window = new sf::RenderWindow(sf::VideoMode(conf.window_size_x, conf.window_size_y),  "Strategy game", sf::Style::Close | sf::Style::Titlebar);
   this->window->setVerticalSyncEnabled(false);
   
 }
-
-//void Game::initUnit() {
-//  this->units.push_back(new Unit);
-//}
 
 void Game::clearButtons() {
   this->buttons.clear();
@@ -50,8 +49,8 @@ void Game::delete_invisible_units() {
     if (unit->get_sprite().getPosition().x < -100) {
       iterators_for_delete.push_back(iter);
     }
-    if (unit->health <= 0 && unit->num_texture_die == 0) {
-      this->current_silver += 10;
+    if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
+      this->current_silver += std::min(unit->get_attack(), 10);
       iterators_for_delete.push_back(iter);
     }
     ++iter;
@@ -81,7 +80,7 @@ void Game::delete_invisible_units() {
       if (unit->get_sprite().getPosition().x < 0) {
         iterators_for_delete.push_back(iter);
       }
-      if (unit->health <= 0 && unit->num_texture_die == 0) {
+      if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
         this->current_silver += 10;
         iterators_for_delete.push_back(iter);
       }
@@ -98,63 +97,64 @@ void Game::delete_invisible_units() {
 
 void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
   int min_dist_to_other_unit = INT_MAX;
-  int hero_x = hero->sprite.getPosition().x;
-  int hero_y = hero->sprite.getPosition().y;
+  int hero_x = hero->get_sprite().getPosition().x;
+  int hero_y = hero->get_sprite().getPosition().y;
   int idx_for_attack = -1;
   int i = 0;
   for (auto unit: units) {
-    if (unit->health <= 0) {
+    if (unit->get_health() <= 0) {
       ++i;
       continue;
     }
-    if (unit->unit_type == 3 && hero->unit_type == 1) {
+    if (unit->get_unit_type() == 3 && hero->get_unit_type() == 1) {
       ++i;
       continue;
     }
-    if(unit->sprite.getPosition() == hero->sprite.getPosition()) {
+    if(unit->get_sprite().getPosition() == hero->get_sprite().getPosition()) {
       ++i;
       continue;
     }
-    if (unit->enemy == hero->enemy) {
+    if (unit->get_enemy() == hero->get_enemy()) {
       ++i;
       continue;
     }
-    int unit_x = unit->sprite.getPosition().x;
-    int unit_y = unit->sprite.getPosition().y;
-    if (hero->enemy) {
-      unit_x += unit->sprite.getTextureRect().width;
+    int unit_x = unit->get_sprite().getPosition().x;
+    int unit_y = unit->get_sprite().getPosition().y;
+    if (hero->get_enemy()) {
+      unit_x += unit->get_sprite().getTextureRect().width;
     }
     else {
-      hero_x += hero->sprite.getTextureRect().width;
+      hero_x += hero->get_sprite().getTextureRect().width;
     }
     double dist = sqrt((unit_x - hero_x) * (unit_x - hero_x) + (unit_y - hero_y) * (unit_y - hero_y));
     //std::cout << "hero " << hero_x << "\n";
     //std::cout << "unit " << unit_x << "\n";
-    if (!hero->enemy && hero_x >= unit_x) {
+    if (!hero->get_enemy() && hero_x >= unit_x) {
       ++i;
       continue;
     }
-    if (hero->enemy && hero_x <= unit_x) {
+    if (hero->get_enemy() && hero_x <= unit_x) {
       ++i;
       continue;
     }
-    if (dist <= hero->attack_radius && dist <= min_dist_to_other_unit) {
+    if (dist <= hero->get_attack_radius() && dist <= min_dist_to_other_unit) {
       min_dist_to_other_unit = dist;
       idx_for_attack = i;
     }
     ++i;
   }
-  std::cout << idx_for_attack << " " << units.size() << "\n";
+  //std::cout << idx_for_attack << " " << units.size() << "\n";
   if (idx_for_attack == -1 || min_dist_to_other_unit == INT_MAX) {
-    hero->can_move = true;
+    hero->set_can_move(true);
     return;
   }
-  hero->can_move = false;
+  hero->set_can_move(false);
   hero->make_attack();
-  units[idx_for_attack]->health -= hero->attack;
-  if (!units[idx_for_attack]->in_team) {
-    units[idx_for_attack]->health -= hero->attack;
-    if (units[idx_for_attack]->health <= 0) {
+  units[idx_for_attack]->set_health(units[idx_for_attack]->get_health() - hero->get_attack());
+  //units[idx_for_attack]->health -= hero->attack;
+  if (!units[idx_for_attack]->get_in_team()) {
+    units[idx_for_attack]->set_health(units[idx_for_attack]->get_health() - hero->get_attack());
+    if (units[idx_for_attack]->get_health() <= 0) {
       units[idx_for_attack]->die();
     }
   }
@@ -177,28 +177,28 @@ void Game::update () {
           for (auto button: buttons) {
             if (button->check_if_click(e, this->window)) {
               SwordsMan a = *(new SwordsMan);
-              if (this->current_silver >= a.silver_cost && 
+              if (this->current_silver >= a.get_silver_cost() && 
                button->name == "SwordsManButton") {
                 this->units.push_back(fact_war->initSwordsMan());
-                this->current_silver -= a.silver_cost;
+                this->current_silver -= a.get_silver_cost();
               }
               ArcherMan b = *(new ArcherMan);
-              if (this->current_silver >= b.silver_cost && 
+              if (this->current_silver >= b.get_silver_cost() && 
                button->name == "ArcherManButton") {
                 this->units.push_back(fact_war->initArcherMan());
-                this->current_silver -= b.silver_cost;
+                this->current_silver -= b.get_silver_cost();
               }
               Phoenix c = *(new Phoenix);
-              if (this->current_silver >= c.silver_cost && 
+              if (this->current_silver >= c.get_silver_cost() && 
                button->name == "PhoenixButton") {
                 this->units.push_back(fact_war->initPhoenix());
-                this->current_silver -= c.silver_cost;
+                this->current_silver -= c.get_silver_cost();
               }
               Paladin d = *(new Paladin);
-              if (this->current_silver >= d.silver_cost && 
+              if (this->current_silver >= d.get_silver_cost() && 
                button->name == "PaladinButton") {
                 this->units.push_back(fact_war->initPaladin());
-                this->current_silver -= d.silver_cost;
+                this->current_silver -= d.get_silver_cost();
               }
               Team e = *(new Team);
               if (this->current_silver >= e.summ_silver_cost && 
@@ -221,31 +221,32 @@ void Game::update () {
   }
   
   for (auto unit: units) {
-    if (unit->health <= 0) {
+    if (unit->get_health() <= 0) {
       unit->die();
       delete_invisible_units();
       continue;
     }
     // Move Unit
-    float time_move = unit->clock_move.getElapsedTime().asMilliseconds();
+    float time_move = unit->get_clock_move().getElapsedTime().asMilliseconds();
     
     if (time_move > 30) {
       // std::cout << "move:" << time_move << " " << units.size() << "\n";
-      if (unit->can_move) {
+      if (unit->get_can_move()) {
         unit->move(1.f, 0.f);
       }
       find_and_attack_enemy(unit, units);
       //unit->make_attack();
       // std::cout << unit->sprite.getPosition().x << " " <<  unit->sprite.getPosition().y << "\n";
-      unit->clock_move.restart();
+      unit->get_clock_move().restart();
     }
     for (auto team: teams) {
       for (auto unit: team->team) {
-        if (unit->health <= 0) {
-          if (team->summ_health >= abs(unit->health) + 1) {
-            team->summ_health -= (abs(unit->health) + 1);
-            unit->health += abs(unit->health) + 1;
-            std::cout << "unit " << unit->health << " team " << team->summ_health << "\n";
+        if (unit->get_health() <= 0) {
+          if (team->summ_health >= abs(unit->get_health()) + 1) {
+            team->summ_health -= (abs(unit->get_health()) + 1);
+            unit->set_health(unit->get_health() + abs(unit->get_health()) + 1);
+            //unit->health += abs(unit->get_health()) + 1;
+            //std::cout << "unit " << unit->health << " team " << team->summ_health << "\n";
           }
           else {
             unit->die();
@@ -257,7 +258,7 @@ void Game::update () {
     for (auto team: teams) {
       summ_health = team->summ_health;
       for (auto unit: team->team) {
-        summ_health += unit->health;
+        summ_health += unit->get_health();
       }
       if (summ_health <= 0) {
         team->team.clear();
