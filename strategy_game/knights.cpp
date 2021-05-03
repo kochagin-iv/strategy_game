@@ -12,7 +12,7 @@ Knight::~Knight() {
 }
 
 SwordsMan::SwordsMan() {
-  Config_swordsman config_swordsman;
+  ConfigSwordsman config_swordsman;
   this->clock_move.restart();
   this->movementSpeed = config_swordsman.swordsman_speed;
   this->num_texture = 0;
@@ -36,7 +36,7 @@ SwordsMan::~SwordsMan() {
 
 
 Paladin::Paladin() {
-  Config_paladin config_paladin;
+  ConfigPaladin config_paladin;
   this->clock_move.restart();
   this->movementSpeed = config_paladin.paladin_speed;
   this->num_texture = 0;

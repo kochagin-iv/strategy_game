@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-class Config_swordsman {
+class ConfigSwordsman {
 public:
     std::vector<std::vector<int> > swordsman_texture_rect_moving = {
         {27, 525, 63, 91},

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-class Config_archer{
+class ConfigArcher{
 public:
     std::vector<std::vector<int> > archer_texture_rect_moving = {
         {68, 785, 56, 83},

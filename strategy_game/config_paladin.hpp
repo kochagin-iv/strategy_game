@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-class Config_paladin {
+class ConfigPaladin {
 public:
     std::vector<std::vector<int> > paladin_texture_rect_moving = {
         {0, 107, 56, 89},

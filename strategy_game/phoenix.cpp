@@ -3,7 +3,7 @@
 #include "config_phoenix.hpp"
 
 Phoenix::Phoenix() {
-  Config_phoenix config_phoenix;
+  ConfigPhoenix config_phoenix;
   this->clock_move.restart();
   this->movementSpeed = config_phoenix.phoenix_speed;
   this->num_texture = 0;
