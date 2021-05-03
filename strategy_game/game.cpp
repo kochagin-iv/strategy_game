@@ -2,6 +2,11 @@
 #include "stdafx.h"
 #include "factory.hpp"
 #include "config_game_param.hpp"
+#include "config_paladin.hpp"
+#include "config_phoenix.hpp"
+#include "config_archer.hpp"
+#include "config_swordsman.hpp"
+#include "config_team.hpp"
 
 Game::Game() {
   this->initWindow();
@@ -165,6 +170,11 @@ void Game::update () {
   AbstractCreationFactory* fact_enemy_war = new CreationEnemyWarriors;
   
   sf::Event e;
+  ConfigArcher conf_arch;
+  ConfigPaladin conf_pal;
+  ConfigPhoenix conf_ph;
+  ConfigSwordsman conf_swm;
+  ConfigTeam conf_team;
   while (this->window->pollEvent(e)) {
     switch (e.type) {
       case sf::Event::Closed: {
@@ -176,38 +186,33 @@ void Game::update () {
         if (e.mouseButton.button == sf::Mouse::Left) {
           for (auto button: buttons) {
             if (button->check_if_click(e, this->window)) {
-              SwordsMan a = *(new SwordsMan);
-              if (this->current_silver >= a.get_silver_cost() && 
+              if (this->current_silver >= conf_swm.silver_cost && 
                button->name == "SwordsManButton") {
                 this->units.push_back(fact_war->initSwordsMan());
-                this->current_silver -= a.get_silver_cost();
+                this->current_silver -= conf_swm.silver_cost;
               }
-              ArcherMan b = *(new ArcherMan);
-              if (this->current_silver >= b.get_silver_cost() && 
+              if (this->current_silver >= conf_arch.silver_cost && 
                button->name == "ArcherManButton") {
                 this->units.push_back(fact_war->initArcherMan());
-                this->current_silver -= b.get_silver_cost();
+                this->current_silver -= conf_arch.silver_cost;
               }
-              Phoenix c = *(new Phoenix);
-              if (this->current_silver >= c.get_silver_cost() && 
+              if (this->current_silver >= conf_ph.silver_cost && 
                button->name == "PhoenixButton") {
                 this->units.push_back(fact_war->initPhoenix());
-                this->current_silver -= c.get_silver_cost();
+                this->current_silver -= conf_ph.silver_cost;
               }
-              Paladin d = *(new Paladin);
-              if (this->current_silver >= d.get_silver_cost() && 
+              if (this->current_silver >= conf_pal.silver_cost && 
                button->name == "PaladinButton") {
                 this->units.push_back(fact_war->initPaladin());
-                this->current_silver -= d.get_silver_cost();
+                this->current_silver -= conf_pal.silver_cost;
               }
-              Team e = *(new Team);
-              if (this->current_silver >= e.summ_silver_cost && 
+              if (this->current_silver >= conf_team.summ_silver_cost && 
                button->name == "TeamButton") {
                 this->teams.push_back(fact_war->initTeam());
                 for (auto uit: this->teams.back()->team) {
                   this->units.push_back(uit);
                 }
-                this->current_silver -= e.summ_silver_cost;
+                this->current_silver -= conf_team.summ_silver_cost;
               }
             }
           }

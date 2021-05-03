@@ -1,5 +1,6 @@
 #include "units.hpp"
 #include "stdafx.h"
+#include "config_team.hpp"
 
 Unit::Unit() {
   this->num_texture_attack = 0;
@@ -117,16 +118,13 @@ Team::Team() {
   Paladin* paladin = new Paladin;
   Phoenix* phoenix = new Phoenix;
 
-
+  ConfigTeam conf_team;
   this->team = {swordsman, archerman, paladin, phoenix};
-  this->summ_silver_cost = 0;
-  this->summ_health = 0;
-  this->summ_attack = 0;
+  this->summ_silver_cost = conf_team.summ_silver_cost;
+  this->summ_health = conf_team.summ_health;
+  this->summ_attack = conf_team.summ_attack;
   for (auto unit: this->team) {
     unit->set_in_team(true);
-    this->summ_silver_cost += unit->get_silver_cost();
-    this->summ_health += unit->get_health();
-    this->summ_attack += unit->get_attack();
   }
 }
 
