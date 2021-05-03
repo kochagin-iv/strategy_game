@@ -25,7 +25,7 @@ protected:
   bool can_move;
   bool already_has_target;
   
-  bool enemy = false;
+  bool enemy;
   int gold_cost;
   int silver_cost;
   sf::Clock clock_move;
@@ -116,6 +116,21 @@ public:
 
 };
 
+class SwordsManFriend: public SwordsMan {
+
+  public:
+    SwordsManFriend(){};
+    ~SwordsManFriend(){};
+};
+
+class SwordsManEnemy: public SwordsMan {
+
+  public:
+    SwordsManEnemy();
+    ~SwordsManEnemy(){};
+};
+
+
 // Paladin class
 
 class Paladin: public Knight {
@@ -128,16 +143,21 @@ public:
 
 };
 
-// Archers class
-
-class Archers: public Unit {
-private:
-  
-public:
-
+class PaladinFriend: public Paladin {
+  public:
+  PaladinFriend() {};
+  ~PaladinFriend() {};
 };
 
-class ArcherMan: public Archers {
+class PaladinEnemy: public Paladin {
+  public:
+  PaladinEnemy();
+  ~PaladinEnemy(){};
+   
+};
+
+// Archers class
+class ArcherMan: public Unit {
 private:
   
   
@@ -147,6 +167,19 @@ public:
   
   void initArcerMan(std::vector<Unit*>& units);
 
+};
+
+class ArcherManFriend: public ArcherMan {
+  public:
+  ArcherManFriend() {};
+  ~ArcherManFriend() {};
+  
+};
+
+class ArcherManEnemy: public ArcherMan {
+ public:
+  ArcherManEnemy();
+  ~ArcherManEnemy() {};
 };
 
 class Phoenix: public Unit {
@@ -159,8 +192,20 @@ public:
   void initPhoenix(std::vector<Unit*>& units);
 };
 
+class PhoenixFriend: public Phoenix {
+  public:
+  PhoenixFriend() {};
+  ~PhoenixFriend() {};
+};
 
-class Team: Unit{
+class PhoenixEnemy: public Phoenix {
+  public:
+  PhoenixEnemy();
+  ~PhoenixEnemy() {};
+};
+
+
+class Team: public Unit{
 private:
 
 public:

@@ -2,59 +2,42 @@
 #include "units.hpp"
 
 
-SwordsMan* CreationWarriors::initSwordsMan() {
-    return new SwordsMan;
+SwordsManFriend* CreationWarriors::initSwordsMan() {
+    return new SwordsManFriend();
     //this->units.push_back();
 }
 
-ArcherMan* CreationWarriors::initArcherMan() {
-    return new ArcherMan;
+ArcherManFriend* CreationWarriors::initArcherMan() {
+    return new ArcherManFriend();
   //this->units.push_back(new ArcherMan);
 }
 
-Paladin* CreationWarriors::initPaladin() {
-  return new Paladin;
+PaladinFriend* CreationWarriors::initPaladin() {
+  return new PaladinFriend();
 }
 
-Phoenix* CreationWarriors::initPhoenix() {
-  return new Phoenix;
+PhoenixFriend* CreationWarriors::initPhoenix() {
+  return new PhoenixFriend();
 }
 
-SwordsMan* CreationEnemyWarriors::initSwordsMan() {
-  SwordsMan* swordsman = new SwordsMan;
-  swordsman->adapter_to_enemy();
-  return swordsman;
+SwordsManEnemy* CreationEnemyWarriors::initSwordsMan() {
+  return new SwordsManEnemy();
   //this->units.push_back(swordsman);
 }
 
-ArcherMan* CreationEnemyWarriors::initArcherMan() {
-  ArcherMan* archerman = new ArcherMan;
-  archerman->adapter_to_enemy();
-  return archerman;
+ArcherManEnemy* CreationEnemyWarriors::initArcherMan() {
+  return new ArcherManEnemy();
   //this->units.push_back(archerman);
 }
 
-Paladin* CreationEnemyWarriors::initPaladin() {
-  Paladin* paladin = new Paladin;
-  paladin->adapter_to_enemy();
-  return paladin;
+PaladinEnemy* CreationEnemyWarriors::initPaladin() {
+  return new PaladinEnemy();
   //this->units.push_back(paladin);
 }
 
-Phoenix* CreationEnemyWarriors::initPhoenix() {
-  Phoenix* phoenix = new Phoenix;
-  phoenix->adapter_to_enemy();
-  return phoenix;
+PhoenixEnemy* CreationEnemyWarriors::initPhoenix() {
+  return new PhoenixEnemy();
   //this->units.push_back(phoenix);
-}
-
-Team* AbstractCreationFactory::initTeam() {
-  Team* team = new Team();
-  for (auto unit: team->team) {
-    team->team.push_back(unit);
-  }
-  return team;
-  //teams.push_back(team);
 }
 
 std::vector<Button*> AbstractCreationFactory::initButtons() {

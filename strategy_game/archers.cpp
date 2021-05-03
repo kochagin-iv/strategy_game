@@ -27,3 +27,7 @@ ArcherMan::~ArcherMan() {
   this->texture_rect_moving.clear();
   this->texture_rect_attack.clear();
 }
+
+ArcherManEnemy::ArcherManEnemy() {
+  this->adapter_to_enemy();
+}

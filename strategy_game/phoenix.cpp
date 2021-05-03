@@ -27,3 +27,7 @@ Phoenix::~Phoenix() {
   this->texture_rect_attack.clear();
   this->texture_rect_moving.clear();
 }
+
+PhoenixEnemy::PhoenixEnemy() {
+  this->adapter_to_enemy();
+}

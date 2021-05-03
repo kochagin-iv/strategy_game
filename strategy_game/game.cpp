@@ -130,11 +130,8 @@ void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
   hero->make_attack();
   units[idx_for_attack]->set_health(units[idx_for_attack]->get_health() - hero->get_attack());
   //units[idx_for_attack]->health -= hero->attack;
-  if (!units[idx_for_attack]->get_in_team()) {
-    units[idx_for_attack]->set_health(units[idx_for_attack]->get_health() - hero->get_attack());
-    if (units[idx_for_attack]->get_health() <= 0) {
-      units[idx_for_attack]->die();
-    }
+  if (units[idx_for_attack]->get_health() <= 0) {
+    units[idx_for_attack]->die();
   }
 }
 
@@ -181,10 +178,17 @@ void Game::update () {
               }
               if (this->current_silver >= conf_team.summ_silver_cost && 
                button->name == "TeamButton") {
-                 for (auto unit: fact_war->initTeam()->team) {
+                 Team* tmp = new Team();
+                 for (auto& unit: tmp->team) {
                    this->units.push_back(unit);
                  }
-                this->current_silver -= conf_team.summ_silver_cost;
+                 delete tmp;
+                 std::cerr << "aaa";
+                 /*this->units.push_back(fact_war->initSwordsMan());
+                 this->units.push_back(fact_war->initArcherMan());
+                 this->units.push_back(fact_war->initPhoenix());
+                 this->units.push_back(fact_war->initPaladin());*/
+                 this->current_silver -= conf_team.summ_silver_cost;
               }
             }
           }
@@ -206,7 +210,7 @@ void Game::update () {
     // Move Unit
     float time_move = unit->get_clock_move().getElapsedTime().asMilliseconds();
     
-    if (time_move > 30) {
+    if (time_move > 100) {
       // std::cout << "move:" << time_move << " " << units.size() << "\n";
       if (unit->get_can_move()) {
         unit->move(1.f, 0.f);
