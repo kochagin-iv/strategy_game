@@ -114,11 +114,11 @@ void Unit::adapter_to_enemy() {
 }
 
 Team::Team() {
-  AbstractCreationFactory fact = *new CreationWarriors;
-  SwordsMan* swordsman = fact.initSwordsMan();
-  ArcherMan* archerman = fact.initArcherMan();
-  Paladin* paladin = fact.initPaladin();
-  Phoenix* phoenix = fact.initPhoenix();
+  AbstractCreationFactory* fact = new CreationWarriors;
+  SwordsMan* swordsman = fact->initSwordsMan();
+  ArcherMan* archerman = fact->initArcherMan();
+  Paladin* paladin = fact->initPaladin();
+  Phoenix* phoenix = fact->initPhoenix();
 
   ConfigTeam conf_team;
   this->team = {swordsman, archerman, paladin, phoenix};

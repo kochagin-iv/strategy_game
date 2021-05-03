@@ -182,12 +182,6 @@ void Game::update () {
                  for (auto& unit: tmp->team) {
                    this->units.push_back(unit);
                  }
-                 delete tmp;
-                 std::cerr << "aaa";
-                 /*this->units.push_back(fact_war->initSwordsMan());
-                 this->units.push_back(fact_war->initArcherMan());
-                 this->units.push_back(fact_war->initPhoenix());
-                 this->units.push_back(fact_war->initPaladin());*/
                  this->current_silver -= conf_team.summ_silver_cost;
               }
             }
