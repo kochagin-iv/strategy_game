@@ -153,10 +153,3 @@ Team::Team(std::vector<Unit*>& units) {
 Team::~Team() {
   this->team.clear();
 }
-
-void Team::die() {
-  for (auto unit: this->team) {
-    unit->set_health(0);
-    unit->die();
-  }
-}

@@ -172,5 +172,4 @@ public:
   // Team(int, Unit*);
   // Team(std::vector<Unit*>&);
   ~Team();
-  void die();
 };
