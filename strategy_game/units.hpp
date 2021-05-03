@@ -160,7 +160,7 @@ public:
 };
 
 
-class Team{
+class Team: Unit{
 private:
 
 public:

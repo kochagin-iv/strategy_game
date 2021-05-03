@@ -50,13 +50,19 @@ void Game::delete_invisible_units() {
   for (auto unit: units) {
     if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x + 100) {
       iterators_for_delete.push_back(iter);
+      ++iter;
+      continue;
     }
     if (unit->get_sprite().getPosition().x < -100) {
       iterators_for_delete.push_back(iter);
+      ++iter;
+      continue;
     }
     if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
       this->current_silver += std::min(unit->get_attack(), 10);
       iterators_for_delete.push_back(iter);
+      ++iter;
+      continue;
     }
     ++iter;
   }
@@ -65,39 +71,6 @@ void Game::delete_invisible_units() {
   }
 
   iterators_for_delete.clear();
-  for (auto tm: teams) {
-    iter = 0;
-    for (auto unit: tm->team) {
-      bool fl = 0;
-      for (auto addr: units) {
-        if (unit == addr) {
-          fl = 1;
-          break;
-        }
-      }
-      if (!fl) {
-        ++iter;
-        continue;
-      }
-      if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x) {
-        iterators_for_delete.push_back(iter);
-      }
-      if (unit->get_sprite().getPosition().x < 0) {
-        iterators_for_delete.push_back(iter);
-      }
-      if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
-        this->current_silver += 10;
-        iterators_for_delete.push_back(iter);
-      }
-      ++iter;
-    }
-    for (auto iterator: iterators_for_delete) {
-      tm->team.erase(tm->team.begin() + iterator);
-    }
-    iterators_for_delete.clear();
-  }
-  
-  
 }
 
 void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
@@ -208,10 +181,9 @@ void Game::update () {
               }
               if (this->current_silver >= conf_team.summ_silver_cost && 
                button->name == "TeamButton") {
-                this->teams.push_back(fact_war->initTeam());
-                for (auto uit: this->teams.back()->team) {
-                  this->units.push_back(uit);
-                }
+                 for (auto unit: fact_war->initTeam()->team) {
+                   this->units.push_back(unit);
+                 }
                 this->current_silver -= conf_team.summ_silver_cost;
               }
             }
@@ -243,31 +215,6 @@ void Game::update () {
       //unit->make_attack();
       // std::cout << unit->sprite.getPosition().x << " " <<  unit->sprite.getPosition().y << "\n";
       unit->get_clock_move().restart();
-    }
-    for (auto team: teams) {
-      for (auto unit: team->team) {
-        if (unit->get_health() <= 0) {
-          if (team->summ_health >= abs(unit->get_health()) + 1) {
-            team->summ_health -= (abs(unit->get_health()) + 1);
-            unit->set_health(unit->get_health() + abs(unit->get_health()) + 1);
-            //unit->health += abs(unit->get_health()) + 1;
-            //std::cout << "unit " << unit->health << " team " << team->summ_health << "\n";
-          }
-          else {
-            unit->die();
-          }
-        }
-      }
-    }
-    int summ_health = 0;
-    for (auto team: teams) {
-      summ_health = team->summ_health;
-      for (auto unit: team->team) {
-        summ_health += unit->get_health();
-      }
-      if (summ_health <= 0) {
-        team->team.clear();
-      }
     }
   }
   // delete_invisible_units();

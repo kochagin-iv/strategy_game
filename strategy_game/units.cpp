@@ -123,8 +123,11 @@ Team::Team() {
   this->summ_silver_cost = conf_team.summ_silver_cost;
   this->summ_health = conf_team.summ_health;
   this->summ_attack = conf_team.summ_attack;
-  for (auto unit: this->team) {
+  for (auto& unit: this->team) {
     unit->set_in_team(true);
+    unit->improve_attack(1);
+    unit->improve_health(1);
+    unit->improve_speed(1);
   }
 }
 
