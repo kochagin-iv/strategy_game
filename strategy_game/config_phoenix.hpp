@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-class Config_phoenix {
+class ConfigPhoenix {
 public:
     std::vector<std::vector<int> > phoenix_texture_rect_moving = {
         {402, 135, 117, 117},

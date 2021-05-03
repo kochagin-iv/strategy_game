@@ -15,7 +15,7 @@ void Button::render(sf::RenderTarget &target) {
 
 void Button::initSprite(int posX, int posY, float scaleX = 1.0f, float scaleY = 1.0f) {
   // Set a texture to the sprait
-  Config_button_param conf;
+  ConfigButtonParam conf;
   this->sprite.setTexture(this->texture);
   this->sprite.setTextureRect(sf::IntRect(0, 0, conf.setTextureRect_x, conf.setTextureRect_y));
   // Set a sprite position
@@ -45,7 +45,7 @@ void Button::onClick() {
 }
 
 SwordsManButton::SwordsManButton() {
-  SwordsManButton_conf conf;
+  SwordsManButtonConf conf;
   this->initTexture(conf.address_for_texture);
   this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
@@ -57,7 +57,7 @@ SwordsManButton::~SwordsManButton() {
 }
 
 ArcherManButton::ArcherManButton() {
-  ArcherManButton_conf conf;
+  ArcherManButtonConf conf;
   this->initTexture(conf.address_for_texture);
   this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
@@ -70,7 +70,7 @@ ArcherManButton::~ArcherManButton() {
 }
 
 PhoenixButton::PhoenixButton() {
-  PhoenixButton_conf conf;
+  PhoenixButtonConf conf;
   this->initTexture(conf.address_for_texture);
   this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
@@ -82,7 +82,7 @@ PhoenixButton::~PhoenixButton() {
 }
 
 PaladinButton::PaladinButton() {
-  PaladinButton_conf conf;
+  PaladinButtonConf conf;
   this->initTexture(conf.address_for_texture);
   this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
@@ -94,7 +94,7 @@ PaladinButton::~PaladinButton() {
 }
 
 TeamButton::TeamButton() {
-  TeamButton_conf conf;
+  TeamButtonConf conf;
   this->initTexture(conf.address_for_texture);
   this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;

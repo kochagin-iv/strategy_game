@@ -4,7 +4,7 @@
 
 
 ArcherMan::ArcherMan() {
-  Config_archer config_archer;
+  ConfigArcher config_archer;
   this->clock_move.restart();
   this->movementSpeed = config_archer.archer_speed;
   this->num_texture = 0;

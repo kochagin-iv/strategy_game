@@ -6,7 +6,7 @@
 Game::Game() {
   this->initWindow();
   // this->initUnit();
-  Config_game_param conf;
+  ConfigGameParam conf;
   current_silver = conf.current_silver;
   current_gold = conf.current_gold;
   this->clock_create.restart();
@@ -21,7 +21,7 @@ Game::~Game() {
 }
 
 void Game::initWindow() {
-  Config_game_param conf;
+  ConfigGameParam conf;
   this->window = new sf::RenderWindow(sf::VideoMode(conf.window_size_x, conf.window_size_y),  "Strategy game", sf::Style::Close | sf::Style::Titlebar);
   this->window->setVerticalSyncEnabled(false);
   
