@@ -274,16 +274,16 @@ void Game::update () {
     //this->initTeam();
     int id = rand() % 4;
     if (id == 0) {
-      this->units.push_back(fact_enemy_war->initSwordsManEnemy());
+      this->units.push_back(fact_enemy_war->initSwordsMan());
     }
     if (id == 1) {
-      this->units.push_back(fact_enemy_war->initArcherManEnemy());
+      this->units.push_back(fact_enemy_war->initArcherMan());
     }
     if (id == 2) {
-      this->units.push_back(fact_enemy_war->initPaladinEnemy());
+      this->units.push_back(fact_enemy_war->initPaladin());
     }
     if (id == 3) {
-      this->units.push_back(fact_enemy_war->initPhoenixEnemy());
+      this->units.push_back(fact_enemy_war->initPhoenix());
     }
     this->clock_create.restart();
   }
@@ -315,7 +315,7 @@ void Game::render() {
     unit->render(*this->window);
   }
   this->clearButtons();
-  AbstractCreationFactory* fact_butt = new CreationButtons;
+  AbstractCreationFactory* fact_butt = new CreationWarriors;
   for (auto button: fact_butt->initButtons()) {
     this->buttons.push_back(button);
   }

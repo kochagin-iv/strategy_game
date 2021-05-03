@@ -8,34 +8,24 @@ class AbstractCreationFactory {
 private:
 
 public:
-  virtual SwordsMan* initSwordsMan() {};
-  virtual ArcherMan* initArcherMan() {};
-  virtual Paladin* initPaladin() {};
-  virtual Phoenix* initPhoenix() {};
-  virtual SwordsMan* initSwordsManEnemy() {};
-  virtual ArcherMan* initArcherManEnemy() {};
-  virtual Paladin* initPaladinEnemy() {};
-  virtual Phoenix* initPhoenixEnemy() {};
-  virtual Team* initTeam() {};
-  virtual std::vector<Button*> initButtons() {};
+  virtual SwordsMan* initSwordsMan() = 0;
+  virtual ArcherMan* initArcherMan() = 0;
+  virtual Paladin* initPaladin() = 0;
+  virtual Phoenix* initPhoenix() = 0;
+  Team* initTeam();
+  std::vector<Button*> initButtons();
 };
 
 class CreationWarriors: public AbstractCreationFactory {
-  virtual SwordsMan* initSwordsMan();
-  virtual ArcherMan* initArcherMan();
-  virtual Paladin* initPaladin();
-  virtual Phoenix* initPhoenix();
-  virtual Team* initTeam();
-
+  SwordsMan* initSwordsMan() override;
+  ArcherMan* initArcherMan() override;
+  Paladin* initPaladin() override;
+  Phoenix* initPhoenix() override;
 };
 
 class CreationEnemyWarriors: public AbstractCreationFactory {
-  virtual SwordsMan* initSwordsManEnemy();
-  virtual ArcherMan* initArcherManEnemy();
-  virtual Paladin* initPaladinEnemy();
-  virtual Phoenix* initPhoenixEnemy();
-};
-
-class CreationButtons: public AbstractCreationFactory {
-  virtual std::vector<Button*> initButtons();
+  SwordsMan* initSwordsMan() override;
+  ArcherMan* initArcherMan() override;
+  Paladin* initPaladin() override;
+  Phoenix* initPhoenix() override;
 };

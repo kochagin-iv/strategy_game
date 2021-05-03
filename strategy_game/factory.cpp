@@ -20,35 +20,35 @@ Phoenix* CreationWarriors::initPhoenix() {
   return new Phoenix;
 }
 
-SwordsMan* CreationEnemyWarriors::initSwordsManEnemy() {
+SwordsMan* CreationEnemyWarriors::initSwordsMan() {
   SwordsMan* swordsman = new SwordsMan;
   swordsman->adapter_to_enemy();
   return swordsman;
   //this->units.push_back(swordsman);
 }
 
-ArcherMan* CreationEnemyWarriors::initArcherManEnemy() {
+ArcherMan* CreationEnemyWarriors::initArcherMan() {
   ArcherMan* archerman = new ArcherMan;
   archerman->adapter_to_enemy();
   return archerman;
   //this->units.push_back(archerman);
 }
 
-Paladin* CreationEnemyWarriors::initPaladinEnemy() {
+Paladin* CreationEnemyWarriors::initPaladin() {
   Paladin* paladin = new Paladin;
   paladin->adapter_to_enemy();
   return paladin;
   //this->units.push_back(paladin);
 }
 
-Phoenix* CreationEnemyWarriors::initPhoenixEnemy() {
+Phoenix* CreationEnemyWarriors::initPhoenix() {
   Phoenix* phoenix = new Phoenix;
   phoenix->adapter_to_enemy();
   return phoenix;
   //this->units.push_back(phoenix);
 }
 
-Team* CreationWarriors::initTeam() {
+Team* AbstractCreationFactory::initTeam() {
   Team* team = new Team();
   for (auto unit: team->team) {
     team->team.push_back(unit);
@@ -57,7 +57,7 @@ Team* CreationWarriors::initTeam() {
   //teams.push_back(team);
 }
 
-std::vector<Button*> CreationButtons::initButtons() {
+std::vector<Button*> AbstractCreationFactory::initButtons() {
     std::vector<Button*> new_butt;
     new_butt.push_back(new SwordsManButton);
     new_butt.push_back(new ArcherManButton);
