@@ -56,3 +56,11 @@ Paladin::Paladin() {
 
 Paladin::~Paladin() {
 }
+
+SwordsManEnemy::SwordsManEnemy() {
+  this->adapter_to_enemy();
+}
+
+PaladinEnemy::PaladinEnemy() {
+  this->adapter_to_enemy();
+}

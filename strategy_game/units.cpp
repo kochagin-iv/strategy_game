@@ -1,5 +1,7 @@
 #include "units.hpp"
 #include "stdafx.h"
+#include "config_team.hpp"
+#include "factory.hpp"
 
 Unit::Unit() {
   this->num_texture_attack = 0;
@@ -112,22 +114,17 @@ void Unit::adapter_to_enemy() {
 }
 
 Team::Team() {
-  SwordsMan* swordsman = new SwordsMan;
-  ArcherMan* archerman = new ArcherMan;
-  Paladin* paladin = new Paladin;
-  Phoenix* phoenix = new Phoenix;
+  AbstractCreationFactory* fact = new CreationWarriors;
+  SwordsMan* swordsman = fact->initSwordsMan();
+  ArcherMan* archerman = fact->initArcherMan();
+  Paladin* paladin = fact->initPaladin();
+  Phoenix* phoenix = fact->initPhoenix();
 
-
+  ConfigTeam conf_team;
   this->team = {swordsman, archerman, paladin, phoenix};
-  this->summ_silver_cost = 0;
-  this->summ_health = 0;
-  this->summ_attack = 0;
-  for (auto unit: this->team) {
-    unit->set_in_team(true);
-    this->summ_silver_cost += unit->get_silver_cost();
-    this->summ_health += unit->get_health();
-    this->summ_attack += unit->get_attack();
-  }
+  this->summ_silver_cost = conf_team.summ_silver_cost;
+  this->summ_health = conf_team.summ_health;
+  this->summ_attack = conf_team.summ_attack;
 }
 
 /*Team::Team(int kol_units, Unit* unit) {
@@ -151,11 +148,4 @@ Team::Team(std::vector<Unit*>& units) {
 
 Team::~Team() {
   this->team.clear();
-}
-
-void Team::die() {
-  for (auto unit: this->team) {
-    unit->set_health(0);
-    unit->die();
-  }
 }

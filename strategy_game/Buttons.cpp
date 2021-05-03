@@ -1,4 +1,5 @@
 #include "Buttons.hpp"
+#include "config_game_param.hpp"
 
 Button::Button() {
 
@@ -14,8 +15,9 @@ void Button::render(sf::RenderTarget &target) {
 
 void Button::initSprite(int posX, int posY, float scaleX = 1.0f, float scaleY = 1.0f) {
   // Set a texture to the sprait
+  ConfigButtonParam conf;
   this->sprite.setTexture(this->texture);
-  this->sprite.setTextureRect(sf::IntRect(0, 0, 600, 600));
+  this->sprite.setTextureRect(sf::IntRect(0, 0, conf.setTextureRect_x, conf.setTextureRect_y));
   // Set a sprite position
   this->sprite.setPosition(posX, posY);
   // Resize the Sprite
@@ -43,10 +45,11 @@ void Button::onClick() {
 }
 
 SwordsManButton::SwordsManButton() {
-  this->initTexture("../strategy_game/Textures/Buttons/SwordsManButton.png");
-  this->initSprite(500, 920, 0.25, 0.25);
+  SwordsManButtonConf conf;
+  this->initTexture(conf.address_for_texture);
+  this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
-  this->name = "SwordsManButton";
+  this->name = conf.name;
 }
 
 
@@ -54,10 +57,11 @@ SwordsManButton::~SwordsManButton() {
 }
 
 ArcherManButton::ArcherManButton() {
-  this->initTexture("../strategy_game/Textures/Buttons/ArcherManButton.png");
-  this->initSprite(700, 920, 0.25, 0.25);
+  ArcherManButtonConf conf;
+  this->initTexture(conf.address_for_texture);
+  this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
-  this->name = "ArcherManButton";
+  this->name = conf.name;
 }
 
 
@@ -66,10 +70,11 @@ ArcherManButton::~ArcherManButton() {
 }
 
 PhoenixButton::PhoenixButton() {
-  this->initTexture("../strategy_game/Textures/Buttons/PhoenixButton.png");
-  this->initSprite(900, 920, 0.25, 0.25);
+  PhoenixButtonConf conf;
+  this->initTexture(conf.address_for_texture);
+  this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
-  this->name = "PhoenixButton";
+  this->name = conf.name;
 }
 
 
@@ -77,10 +82,11 @@ PhoenixButton::~PhoenixButton() {
 }
 
 PaladinButton::PaladinButton() {
-  this->initTexture("../strategy_game/Textures/Buttons/PaladinButton.png");
-  this->initSprite(300, 920, 0.25, 0.25);
+  PaladinButtonConf conf;
+  this->initTexture(conf.address_for_texture);
+  this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
-  this->name = "PaladinButton";
+  this->name = conf.name;
 }
 
 
@@ -88,10 +94,11 @@ PaladinButton::~PaladinButton() {
 }
 
 TeamButton::TeamButton() {
-  this->initTexture("../strategy_game/Textures/Buttons/TeamButton.png");
-  this->initSprite(100, 920, 0.25, 0.25);
+  TeamButtonConf conf;
+  this->initTexture(conf.address_for_texture);
+  this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
   this->is_onClick = false;
-  this->name = "TeamButton";
+  this->name = conf.name;
 }
 
 

@@ -1,12 +1,19 @@
 #include "game.hpp"
 #include "stdafx.h"
 #include "factory.hpp"
+#include "config_game_param.hpp"
+#include "config_paladin.hpp"
+#include "config_phoenix.hpp"
+#include "config_archer.hpp"
+#include "config_swordsman.hpp"
+#include "config_team.hpp"
 
 Game::Game() {
   this->initWindow();
   // this->initUnit();
-  current_silver = 100;
-  current_gold = 100;
+  ConfigGameParam conf;
+  current_silver = conf.current_silver;
+  current_gold = conf.current_gold;
   this->clock_create.restart();
 }
 
@@ -19,14 +26,11 @@ Game::~Game() {
 }
 
 void Game::initWindow() {
-  this->window = new sf::RenderWindow(sf::VideoMode(1920, 1067),  "Strategy game", sf::Style::Close | sf::Style::Titlebar);
+  ConfigGameParam conf;
+  this->window = new sf::RenderWindow(sf::VideoMode(conf.window_size_x, conf.window_size_y),  "Strategy game", sf::Style::Close | sf::Style::Titlebar);
   this->window->setVerticalSyncEnabled(false);
   
 }
-
-//void Game::initUnit() {
-//  this->units.push_back(new Unit);
-//}
 
 void Game::clearButtons() {
   this->buttons.clear();
@@ -42,21 +46,23 @@ void Game::run() {
 
 void Game::delete_invisible_units() {
   std::vector<int> iterators_for_delete;
-  std::set<Unit*> deleted;
   int iter = 0;
   for (auto unit: units) {
     if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x + 100) {
       iterators_for_delete.push_back(iter);
-      deleted.insert(unit);
+      ++iter;
+      continue;
     }
     if (unit->get_sprite().getPosition().x < -100) {
       iterators_for_delete.push_back(iter);
-      deleted.insert(unit);
+      ++iter;
+      continue;
     }
     if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
-      this->current_silver += 10;
+      this->current_silver += std::min(unit->get_attack(), 10);
       iterators_for_delete.push_back(iter);
-      deleted.insert(unit);
+      ++iter;
+      continue;
     }
     ++iter;
   }
@@ -65,35 +71,6 @@ void Game::delete_invisible_units() {
   }
 
   iterators_for_delete.clear();
-  for (auto tm: teams) {
-    iter = 0;
-    for (auto unit: tm->team) {
-      if (deleted.count(unit) > 0) {
-        ++iter;
-        continue;
-      }
-      if (unit->get_sprite().getPosition().x > this->window->Window::getSize().x) {
-        iterators_for_delete.push_back(iter);
-        deleted.insert(unit);
-      }
-      if (unit->get_sprite().getPosition().x < 0) {
-        iterators_for_delete.push_back(iter);
-        deleted.insert(unit);
-      }
-      if (unit->get_health() <= 0 && unit->get_num_texture_die() == 0) {
-        this->current_silver += 10;
-        iterators_for_delete.push_back(iter);
-        deleted.insert(unit);
-      }
-      ++iter;
-    }
-    for (auto iterator: iterators_for_delete) {
-      tm->team.erase(tm->team.begin() + iterator);
-    }
-    iterators_for_delete.clear();
-  }
-  
-  
 }
 
 void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
@@ -153,11 +130,8 @@ void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
   hero->make_attack();
   units[idx_for_attack]->set_health(units[idx_for_attack]->get_health() - hero->get_attack());
   //units[idx_for_attack]->health -= hero->attack;
-  if (!units[idx_for_attack]->get_in_team()) {
-    units[idx_for_attack]->set_health(units[idx_for_attack]->get_health() - hero->get_attack());
-    if (units[idx_for_attack]->get_health() <= 0) {
-      units[idx_for_attack]->die();
-    }
+  if (units[idx_for_attack]->get_health() <= 0) {
+    units[idx_for_attack]->die();
   }
 }
 
@@ -166,6 +140,11 @@ void Game::update () {
   AbstractCreationFactory* fact_enemy_war = new CreationEnemyWarriors;
   
   sf::Event e;
+  ConfigArcher conf_arch;
+  ConfigPaladin conf_pal;
+  ConfigPhoenix conf_ph;
+  ConfigSwordsman conf_swm;
+  ConfigTeam conf_team;
   while (this->window->pollEvent(e)) {
     switch (e.type) {
       case sf::Event::Closed: {
@@ -177,38 +156,33 @@ void Game::update () {
         if (e.mouseButton.button == sf::Mouse::Left) {
           for (auto button: buttons) {
             if (button->check_if_click(e, this->window)) {
-              SwordsMan a = *(new SwordsMan);
-              if (this->current_silver >= a.get_silver_cost() && 
+              if (this->current_silver >= conf_swm.silver_cost && 
                button->name == "SwordsManButton") {
                 this->units.push_back(fact_war->initSwordsMan());
-                this->current_silver -= a.get_silver_cost();
+                this->current_silver -= conf_swm.silver_cost;
               }
-              ArcherMan b = *(new ArcherMan);
-              if (this->current_silver >= b.get_silver_cost() && 
+              if (this->current_silver >= conf_arch.silver_cost && 
                button->name == "ArcherManButton") {
                 this->units.push_back(fact_war->initArcherMan());
-                this->current_silver -= b.get_silver_cost();
+                this->current_silver -= conf_arch.silver_cost;
               }
-              Phoenix c = *(new Phoenix);
-              if (this->current_silver >= c.get_silver_cost() && 
+              if (this->current_silver >= conf_ph.silver_cost && 
                button->name == "PhoenixButton") {
                 this->units.push_back(fact_war->initPhoenix());
-                this->current_silver -= c.get_silver_cost();
+                this->current_silver -= conf_ph.silver_cost;
               }
-              Paladin d = *(new Paladin);
-              if (this->current_silver >= d.get_silver_cost() && 
+              if (this->current_silver >= conf_pal.silver_cost && 
                button->name == "PaladinButton") {
                 this->units.push_back(fact_war->initPaladin());
-                this->current_silver -= d.get_silver_cost();
+                this->current_silver -= conf_pal.silver_cost;
               }
-              Team e = *(new Team);
-              if (this->current_silver >= e.summ_silver_cost && 
+              if (this->current_silver >= conf_team.summ_silver_cost && 
                button->name == "TeamButton") {
-                this->teams.push_back(fact_war->initTeam());
-                for (auto uit: this->teams.back()->team) {
-                  this->units.push_back(uit);
-                }
-                this->current_silver -= e.summ_silver_cost;
+                 Team* tmp = new Team();
+                 for (auto& unit: tmp->team) {
+                   this->units.push_back(unit);
+                 }
+                 this->current_silver -= conf_team.summ_silver_cost;
               }
             }
           }
@@ -230,7 +204,7 @@ void Game::update () {
     // Move Unit
     float time_move = unit->get_clock_move().getElapsedTime().asMilliseconds();
     
-    if (time_move > 30) {
+    if (time_move > 100) {
       // std::cout << "move:" << time_move << " " << units.size() << "\n";
       if (unit->get_can_move()) {
         unit->move(1.f, 0.f);
@@ -239,31 +213,6 @@ void Game::update () {
       //unit->make_attack();
       // std::cout << unit->sprite.getPosition().x << " " <<  unit->sprite.getPosition().y << "\n";
       unit->get_clock_move().restart();
-    }
-    for (auto team: teams) {
-      for (auto unit: team->team) {
-        if (unit->get_health() <= 0) {
-          if (team->summ_health >= abs(unit->get_health()) + 1) {
-            team->summ_health -= (abs(unit->get_health()) + 1);
-            unit->set_health(unit->get_health() + abs(unit->get_health()) + 1);
-            //unit->health += abs(unit->get_health()) + 1;
-            //std::cout << "unit " << unit->health << " team " << team->summ_health << "\n";
-          }
-          else {
-            unit->die();
-          }
-        }
-      }
-    }
-    int summ_health = 0;
-    for (auto team: teams) {
-      summ_health = team->summ_health;
-      for (auto unit: team->team) {
-        summ_health += unit->get_health();
-      }
-      if (summ_health <= 0) {
-        team->team.clear();
-      }
     }
   }
   // delete_invisible_units();
@@ -275,16 +224,16 @@ void Game::update () {
     //this->initTeam();
     int id = rand() % 4;
     if (id == 0) {
-      this->units.push_back(fact_enemy_war->initSwordsManEnemy());
+      this->units.push_back(fact_enemy_war->initSwordsMan());
     }
     if (id == 1) {
-      this->units.push_back(fact_enemy_war->initArcherManEnemy());
+      this->units.push_back(fact_enemy_war->initArcherMan());
     }
     if (id == 2) {
-      this->units.push_back(fact_enemy_war->initPaladinEnemy());
+      this->units.push_back(fact_enemy_war->initPaladin());
     }
     if (id == 3) {
-      this->units.push_back(fact_enemy_war->initPhoenixEnemy());
+      this->units.push_back(fact_enemy_war->initPhoenix());
     }
     this->clock_create.restart();
   }
@@ -316,7 +265,7 @@ void Game::render() {
     unit->render(*this->window);
   }
   this->clearButtons();
-  AbstractCreationFactory* fact_butt = new CreationButtons;
+  AbstractCreationFactory* fact_butt = new CreationWarriors;
   for (auto button: fact_butt->initButtons()) {
     this->buttons.push_back(button);
   }
