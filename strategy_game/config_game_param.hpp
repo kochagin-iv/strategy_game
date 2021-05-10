@@ -5,6 +5,7 @@ struct ConfigGameParam {
     int current_silver = 100;
     int window_size_x = 1920;
     int window_size_y = 1067;
+    int castle_pos_x = 250;
 };
 
 // --------CONFIG BUTTONS---------- //
@@ -58,4 +59,13 @@ struct TeamButtonConf {
     float scale_x = 0.25;
     float scale_y = 0.25;
     std::string name = "TeamButton";
+};
+
+struct DangerButtonConf {
+    std::string address_for_texture = "../strategy_game/Textures/Buttons/DangerButton.jpeg";
+    int initSprite_x = 1100;
+    int initSprite_y = 920;
+    float scale_x = 0.25;
+    float scale_y = 0.25;
+    std::string name = "DangerButton";
 };

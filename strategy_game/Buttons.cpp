@@ -104,3 +104,15 @@ TeamButton::TeamButton() {
 
 TeamButton::~TeamButton() {
 }
+
+DangerButton::DangerButton() {
+  DangerButtonConf conf;
+  this->initTexture(conf.address_for_texture);
+  this->initSprite(conf.initSprite_x, conf.initSprite_y, conf.scale_x, conf.scale_y);
+  this->is_onClick = false;
+  this->name = conf.name;
+}
+
+
+DangerButton::~DangerButton() {
+}

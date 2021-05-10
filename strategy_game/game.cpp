@@ -73,6 +73,17 @@ void Game::delete_invisible_units() {
   iterators_for_delete.clear();
 }
 
+void Game::NotifyDangerFriends() {
+  ConfigGameParam conf;
+  for (auto& unit: this->units) {
+    if (!unit->get_enemy()) {
+      unit->get_sprite().setPosition(conf.castle_pos_x, unit->get_sprite().getPosition().y);
+      unit->improve_health(1);
+    }
+    
+  }
+}
+
 void find_and_attack_enemy(Unit* hero, std::vector<Unit*>& units) {
   int min_dist_to_other_unit = INT_MAX;
   int hero_x = hero->get_sprite().getPosition().x;
@@ -183,6 +194,9 @@ void Game::update () {
                    this->units.push_back(unit);
                  }
                  this->current_silver -= conf_team.summ_silver_cost;
+              }
+              if (button->name == "DangerButton") {
+                this->NotifyDangerFriends();
               }
             }
           }

@@ -32,6 +32,7 @@ public:
   // void initUnit();
   void clearButtons();
   
+  void NotifyDangerFriends();
   void delete_invisible_units();
   void update();
   void render();

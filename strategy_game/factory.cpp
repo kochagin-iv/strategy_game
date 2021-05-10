@@ -47,5 +47,6 @@ std::vector<Button*> AbstractCreationFactory::initButtons() {
     new_butt.push_back(new PhoenixButton);
     new_butt.push_back(new PaladinButton);
     new_butt.push_back(new TeamButton);
+    new_butt.push_back(new DangerButton);
     return new_butt;
 }

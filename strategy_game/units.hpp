@@ -91,6 +91,9 @@ public:
   void set_in_team(bool flag) {
     in_team = flag;
   }
+  void set_pos_x(float pos) {
+    posX = pos;
+  }
 };
 
 

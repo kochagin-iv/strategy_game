@@ -23,6 +23,8 @@ class Game {
   +void initPhoenix()
   --
   +void delete_invisible_units()
+  +void NotifyDangerFriends()
+
   +void update()
   +void render()
   +void run()
@@ -88,6 +90,19 @@ class SwordsMan{
 
 Knight <-- SwordsMan
 
+class SwordsManFriend {
+  +SwordsManFriend(){}
+  +~SwordsManFriend(){}
+}
+
+class SwordsManEnemy {
+  +SwordsManFriend(){}
+  +~SwordsManFriend(){}
+}
+
+SwordsMan <-- SwordsManFriend
+SwordsMan <-- SwordsManEnemy
+
 class Paladin{
   +Paladin()
   +~Paladin()
@@ -97,13 +112,18 @@ class Paladin{
 
 Knight <-- Paladin
 
-class Archers{
+class PaladinFriend {
+  +PaladinFriend(){}
+  +~PaladinFriend(){}
 }
-note right: this class\nunites all Archers
-note left of Archers: there will be other ArcherMen
 
+class PaladinEnemy {
+  +PaladinEnemy(){}
+  +~PaladinEnemy(){}
+}
 
-Unit <-- Archers
+Paladin <-- PaladinFriend
+Paladin <-- PaladinEnemy
 
 class ArcherMan{
   +ArcherMan()
@@ -113,7 +133,21 @@ class ArcherMan{
 
 }
 
-Archers <-- ArcherMan
+Unit <-- ArcherMan
+
+class ArcherManFriend {
+  +ArcherManFriend(){}
+  +~ArcherManFriend(){}
+}
+
+class ArcherManEnemy {
+  +ArcherManEnemy(){}
+  +~ArcherManEnemy(){}
+}
+
+ArcherMan <-- ArcherManFriend
+ArcherMan <-- ArcherManEnemy
+
 
 class Phoenix{
   +Phoenix()
@@ -121,7 +155,22 @@ class Phoenix{
   --
   +void initPhoenix(std::vector<Unit*>& units)
 }
+
 Unit <-- Phoenix
+
+
+class PhoenixFriend {
+  +PhoenixFriend(){}
+  +~PhoenixFriend(){}
+}
+
+class PhoenixEnemy {
+  +PhoenixEnemy(){}
+  +~PhoenixEnemy(){}
+}
+
+Phoenix <-- PhoenixFriend
+Phoenix <-- PhoenixEnemy
 
 note "Also I planned adding other unit classes" as N1
 
@@ -182,12 +231,20 @@ class TeamButton {
   +void onClick()
 }
 
+class DangerButton {
+  +DangerButton()
+  +~DangerButton()
+  --
+  +void onClick()
+}
+
 Button <-- UnitButton
 UnitButton <-- SwordsManButton
 UnitButton <-- ArcherManButton
 UnitButton <-- PhoenixButton
 UnitButton <-- PaladinButton
 UnitButton <-- TeamButton
+Button <-- DangerButton
 
 class Team{
   +int: summ_silver_cost

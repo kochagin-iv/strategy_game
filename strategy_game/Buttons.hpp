@@ -67,3 +67,10 @@ public:
     ~TeamButton();
     void onClick();
 };
+
+class DangerButton: public Button {
+  public:
+    DangerButton();
+    ~DangerButton();
+    void onClick();
+};
